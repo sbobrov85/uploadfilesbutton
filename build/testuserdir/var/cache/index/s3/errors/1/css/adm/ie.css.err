@@ -1,0 +1,5 @@
+ERROR:32:line 32\d86 Unexpected character(s) ? found
+ERROR:32:line 32\d161 Unexpected character(s) ? found
+ERROR:32:Unexpected token COLON found
+ERROR:35:Unexpected token DOT found
+ERROR:35:Unexpected token RPAREN found

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<windowmanager version="2.1">
+    <main-window>
+  <joined-properties
+   x="68"
+   y="50"
+   width="1229"
+   height="668"
+   relative-x="0.0"
+   relative-y="0.0"
+   relative-width="0.0"
+   relative-height="0.0"
+   centered-horizontally="false"
+   centered-vertically="false"
+   maximize-if-width-below="0"
+   maximize-if-height-below="0"
+   frame-state="0"
+/>
+  <separated-properties
+   x="137"
+   y="74"
+   width="1092"
+   height="59"
+   relative-x="0.0"
+   relative-y="0.0"
+   relative-width="0.0"
+   relative-height="0.0"
+   centered-horizontally="false"
+   centered-vertically="false"
+   frame-state="0"
+/>
+  </main-window>
+    <editor-area state="joined" frame-state="0">
+  <constraints>
+  <path orientation="horizontal" number="60" weight="0.7" />
+  <path orientation="vertical" number="40" weight="0.7" />
+  <path orientation="horizontal" number="40" weight="0.7" />
+  <path orientation="vertical" number="40" weight="0.5" />
+  </constraints>
+  <bounds x="450" y="178" width="573" height="326" />
+    </editor-area>
+    <screen width="1366" height="768"/>
+    <active-mode name="editor"/>
+    <toolbar configuration="Standard" preferred-icon-size="16"/>
+    <tc-list>
+  <tc-id id="MultiView-properties1F6EDEB1text#002Ehistory#007C"/>
+  <tc-id id="projectTabLogical_tc"/>
+  <tc-id id="projectTab_tc"/>
+  <tc-id id="navigatorTC"/>
+  <tc-id id="services"/>
+    </tc-list>
+</windowmanager>

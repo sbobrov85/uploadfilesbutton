@@ -1,0 +1,1 @@
+ERROR_NO_BADGE:8:Missing close quote\n"return confirm('Are you sure? (' + (this.form['all'].checked ? __

@@ -1,0 +1,5 @@
+ERROR:128:line 128\d5 Unexpected character(s) ? found
+ERROR:133:line 133\d13 Unexpected character(s) ? found
+ERROR:126:Unexpected token COLON found
+ERROR:5333:Unexpected token LBRACKET found
+ERROR:5334:Unexpected token RPAREN found

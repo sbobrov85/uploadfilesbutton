@@ -1,0 +1,1 @@
+ERROR:30:Expected ; but found \d\nUIEvent.prototype.view = new views\d\dAbstractView();

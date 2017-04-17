@@ -1,0 +1,2 @@
+ERROR:34:Unexpected character(s) '//display\d none;','\n' found
+ERROR:39:Unexpected character(s) '//background\d url(i/dialog-titlebar-close-hover.png) no-repeat;','\n' found

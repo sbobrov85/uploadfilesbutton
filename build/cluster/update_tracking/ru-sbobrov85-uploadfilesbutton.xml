@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="ru.sbobrov85.uploadfilesbutton">
+    <module_version install_time="1492395125967" last="true" origin="installer" specification_version="1.0">
+        <file crc="2617834092" name="config/Modules/ru-sbobrov85-uploadfilesbutton.xml"/>
+        <file crc="52333644" name="modules/ru-sbobrov85-uploadfilesbutton.jar"/>
+    </module_version>
+</module>

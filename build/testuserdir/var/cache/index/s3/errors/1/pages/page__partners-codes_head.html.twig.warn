@@ -1,0 +1,5 @@
+ERROR_NO_BADGE:9:Expected an operand but found ,\n            id\d ,\n         
+ERROR_NO_BADGE:11:Expected ; but found \d\n            clickmap\d true,\n        
+ERROR_NO_BADGE:13:Expected ; but found \d\n            accurateTrackBounce\d tr
+ERROR_NO_BADGE:15:Expected ; but found )
+ERROR_NO_BADGE:16:Expected eof but found }

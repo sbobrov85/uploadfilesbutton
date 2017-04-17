@@ -1,0 +1,1 @@
+ERROR:17:Syntax error\n unexpected\d	identifier 'version'\n after\d	identifier 'xml'\n expected\d	instanceof, \d\d, \\, OR, XOR, &&, ?, ;, ||, &&, |, ^, &, ==, !=, ===, !==, <=, >=, <=>, <, >, <<, >>, +, -, *, /, %, '.', [, (, \d, ??

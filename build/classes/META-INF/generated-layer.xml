@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN"
+                            "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Project">
+            <file name="ru-sbobrov85-uploadfilesbutton-UploadFilesButton.instance">
+                <!--ru.sbobrov85.uploadfilesbutton.UploadFilesButton-->
+                <attr name="type" stringvalue="org.netbeans.api.project.Project"/>
+                <attr name="injectable" stringvalue="ru.sbobrov85.uploadfilesbutton.UploadFilesButton"/>
+                <attr name="selectionType" stringvalue="EXACTLY_ONE"/>
+                <attr
+                    bundlevalue="ru.sbobrov85.uploadfilesbutton.Bundle#CTL_UploadFilesButton" name="displayName"/>
+                <attr
+                    methodvalue="org.openide.awt.Actions.alwaysEnabled" name="instanceCreate"/>
+                <attr name="delegate" newvalue="ru.sbobrov85.uploadfilesbutton.UploadFilesButton"/>
+                <attr name="iconBase" stringvalue="ru/sbobrov85/uploadfilesbutton/upload-files-16.png"/>
+                <attr boolvalue="false" name="noIconInMenu"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="BuildProject">
+            <file name="ru-sbobrov85-uploadfilesbutton-UploadFilesButton.shadow">
+                <!--ru.sbobrov85.uploadfilesbutton.UploadFilesButton-->
+                <attr name="originalFile" stringvalue="Actions/Project/ru-sbobrov85-uploadfilesbutton-UploadFilesButton.instance"/>
+                <attr intvalue="1200" name="position"/>
+            </file>
+        </folder>
+        <folder name="Source">
+            <file name="ru-sbobrov85-uploadfilesbutton-UploadFilesButton.shadow">
+                <!--ru.sbobrov85.uploadfilesbutton.UploadFilesButton-->
+                <attr name="originalFile" stringvalue="Actions/Project/ru-sbobrov85-uploadfilesbutton-UploadFilesButton.instance"/>
+                <attr intvalue="9100" name="position"/>
+            </file>
+            <file name="ru-sbobrov85-uploadfilesbutton-UploadFilesButton-separatorBefore.instance">
+                <!--ru.sbobrov85.uploadfilesbutton.UploadFilesButton-->
+                <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                <attr intvalue="9050" name="position"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Toolbars">
+        <folder name="Build">
+            <file name="ru-sbobrov85-uploadfilesbutton-UploadFilesButton.shadow">
+                <!--ru.sbobrov85.uploadfilesbutton.UploadFilesButton-->
+                <attr name="originalFile" stringvalue="Actions/Project/ru-sbobrov85-uploadfilesbutton-UploadFilesButton.instance"/>
+                <attr intvalue="500" name="position"/>
+            </file>
+        </folder>
+        <folder name="Remote">
+            <file name="ru-sbobrov85-uploadfilesbutton-UploadFilesButton.shadow">
+                <!--ru.sbobrov85.uploadfilesbutton.UploadFilesButton-->
+                <attr name="originalFile" stringvalue="Actions/Project/ru-sbobrov85-uploadfilesbutton-UploadFilesButton.instance"/>
+                <attr intvalue="3100" name="position"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Shortcuts">
+        <file name="DO-U.shadow">
+            <!--ru.sbobrov85.uploadfilesbutton.UploadFilesButton-->
+            <attr name="originalFile" stringvalue="Actions/Project/ru-sbobrov85-uploadfilesbutton-UploadFilesButton.instance"/>
+        </file>
+    </folder>
+</filesystem>
