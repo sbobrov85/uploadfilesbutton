@@ -1,33 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License.
  */
 package ru.sbobrov85.uploadfilesbutton;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import javax.annotation.Resource;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
-import org.netbeans.api.project.FileOwnerQuery;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
-import org.netbeans.api.project.Project;
-import org.netbeans.spi.project.support.ant.AntProjectHelper;
-import org.openide.filesystems.FileLock;
-import org.openide.filesystems.FileObject;
-import org.openide.util.EditableProperties;
-import org.openide.util.Exceptions;
 import org.openide.util.HelpCtx;
-import org.openide.util.Lookup;
-import org.openide.util.Utilities;
 import org.openide.util.actions.CallbackSystemAction;
+import ru.sbobrov85.uploadfilesbutton.classes.ContextProperties;
+import ru.sbobrov85.uploadfilesbutton.classes.StateHelper;
 
 @ActionID(
     category = "Project",
@@ -35,7 +22,6 @@ import org.openide.util.actions.CallbackSystemAction;
 )
 
 @ActionRegistration(
-//    iconBase = "ru/sbobrov85/uploadfilesbutton/upload-files-16.png",
     lazy = false,
     displayName = "#CTL_UploadFilesButton"
 )
@@ -50,154 +36,34 @@ import org.openide.util.actions.CallbackSystemAction;
     @ActionReference(path = "Shortcuts", name = "DO-U")
 })
 
-@Messages("CTL_UploadFilesButton=Disable auto upload")
+@Messages("CTL_UploadFilesButton=Toggle auto upload")
 
 public final class UploadFilesButton extends CallbackSystemAction {
-
-    @Resource
-    private static final String
-        ICON_OFF_16 = "ru/sbobrov85/uploadfilesbutton/upload-files-off-16.png";
-
-    @Resource
-    private static final String
-        ICON_16 = "ru/sbobrov85/uploadfilesbutton/upload-files-16.png";
-
-    private Project currentProject;
-
-    public static final String MANUALLY_STATE = "MANUALLY";
-
-    public static final String ON_SAVE_STATE = "ON_SAVE";
-
-    public UploadFilesButton() {
-        int a = 1;
-    }
-
-    public void setCurrentProject() {
-        Lookup lookup = Utilities.actionsGlobalContext();
-
-        FileObject fileObject = lookup.lookup(FileObject.class);
-        if (fileObject != null) {
-            currentProject = FileOwnerQuery.getOwner(fileObject);
-        } else {
-            currentProject = lookup.lookup(Project.class);
-        }
-    }
-
-    protected String getEditableProperty(String key) {
-        String result = null;
-        FileObject projectProps = currentProject.getProjectDirectory()
-            .getFileObject(AntProjectHelper.PRIVATE_PROPERTIES_PATH);
-
-        try {
-            EditableProperties editableProps = loadProperties(projectProps);
-            result = editableProps.getProperty(key);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-
-        return result;
-    }
-
-    protected void setEditableProperty(String key, String value) {
-        FileObject projectProps = currentProject.getProjectDirectory()
-            .getFileObject(AntProjectHelper.PRIVATE_PROPERTIES_PATH);
-
-        try {
-            EditableProperties editableProps = loadProperties(projectProps);
-            editableProps.setProperty(key, value);
-
-            storeProperties(projectProps, editableProps);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }
+    private JMenuItem menuItem;
 
     @Override
     public boolean isEnabled() {
         return true;
     }
 
-
-    public boolean checkEnabled() {
-        setCurrentProject();
-        boolean isEnabled = false;
-
-        if (currentProject != null) {
-            String prop = getEditableProperty("run.as");
-            if ("REMOTE".equals(prop)) {
-                isEnabled = true;
-            }
-        }
-
-        return isEnabled;
-    }
-
-    protected String toggleUploadState(String state) {
-        String resultState;
-
-        switch (state) {
-            case MANUALLY_STATE:
-                resultState = ON_SAVE_STATE;
-                break;
-
-            case ON_SAVE_STATE:
-                resultState = MANUALLY_STATE;
-                break;
-
-            default:
-                resultState = MANUALLY_STATE;
-        }
-
-        return resultState;
-    }
-
-    private static EditableProperties loadProperties(FileObject propsFO) throws IOException {
-        InputStream propsIS = propsFO.getInputStream();
-        EditableProperties props = new EditableProperties(true);
-        try {
-            props.load(propsIS);
-        } finally {
-            propsIS.close();
-        }
-        return props;
-    }
-
-    public static void storeProperties(FileObject propsFO, EditableProperties props) throws IOException {
-        FileLock lock = propsFO.lock();
-        try {
-            OutputStream os = propsFO.getOutputStream(lock);
-            try {
-                props.store(os);
-            } finally {
-                os.close();
-            }
-        } finally {
-            lock.releaseLock();
-        }
-    }
-
-    protected boolean checkUploadState() {
-        return currentProject != null &&
-            "MANUALLY".equals(getEditableProperty("remote.upload"));
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (checkEnabled()) {
-            setEditableProperty(
+        if (StateHelper.isEnabled()) {
+            ContextProperties props = new ContextProperties();
+            props.setProperty(
                 "remote.upload",
-                toggleUploadState(
-                    getEditableProperty("remote.upload")
+                StateHelper.toggle(
+                    props.getProperty("remote.upload")
                 )
             );
             setIcon(new ImageIcon());
+            menuItem.setIcon(new ImageIcon(getClass().getResource(StateHelper.getIcon())));
         }
     }
 
     @Override
     public String getName() {
-        return checkUploadState() ?
-            "Enable auto upload" : "Disable auto upload";
+        return Bundle.CTL_UploadFilesButton();
     }
 
     @Override
@@ -207,17 +73,15 @@ public final class UploadFilesButton extends CallbackSystemAction {
 
     @Override
     protected String iconResource() {
-      String iconPath = checkUploadState() ? ICON_16 : ICON_OFF_16;
-      return iconPath;
+      return StateHelper.getIcon();
     }
 
   @Override
   public JMenuItem getMenuPresenter() {
-    JMenuItem menuItem = new JMenuItem(
+    menuItem = new JMenuItem(
         getName(),
         getIcon()
     );
-
     menuItem.addActionListener(this);
 
     return menuItem;
