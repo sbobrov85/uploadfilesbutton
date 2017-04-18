@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import javax.annotation.Resource;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -49,7 +50,7 @@ import org.openide.util.actions.CallbackSystemAction;
     @ActionReference(path = "Shortcuts", name = "DO-U")
 })
 
-@Messages("CTL_UploadFilesButton=UploadFiles on Save")
+@Messages("CTL_UploadFilesButton=Disable auto upload")
 
 public final class UploadFilesButton extends CallbackSystemAction {
 
@@ -67,6 +68,9 @@ public final class UploadFilesButton extends CallbackSystemAction {
 
     public static final String ON_SAVE_STATE = "ON_SAVE";
 
+    public UploadFilesButton() {
+        int a = 1;
+    }
 
     public void setCurrentProject() {
         Lookup lookup = Utilities.actionsGlobalContext();
@@ -172,6 +176,11 @@ public final class UploadFilesButton extends CallbackSystemAction {
         }
     }
 
+    protected boolean checkUploadState() {
+        return currentProject != null &&
+            "MANUALLY".equals(getEditableProperty("remote.upload"));
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (checkEnabled()) {
@@ -187,7 +196,8 @@ public final class UploadFilesButton extends CallbackSystemAction {
 
     @Override
     public String getName() {
-        return Bundle.CTL_UploadFilesButton();
+        return checkUploadState() ?
+            "Enable auto upload" : "Disable auto upload";
     }
 
     @Override
@@ -197,8 +207,19 @@ public final class UploadFilesButton extends CallbackSystemAction {
 
     @Override
     protected String iconResource() {
-        String iconPath = currentProject != null && "MANUALLY".equals(getEditableProperty("remote.upload"))  ?
-            ICON_16 : ICON_OFF_16;
-        return iconPath;
+      String iconPath = checkUploadState() ? ICON_16 : ICON_OFF_16;
+      return iconPath;
     }
+
+  @Override
+  public JMenuItem getMenuPresenter() {
+    JMenuItem menuItem = new JMenuItem(
+        getName(),
+        getIcon()
+    );
+
+    menuItem.addActionListener(this);
+
+    return menuItem;
+  }
 }
