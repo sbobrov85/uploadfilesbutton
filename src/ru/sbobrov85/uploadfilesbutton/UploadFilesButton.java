@@ -6,13 +6,11 @@
 package ru.sbobrov85.uploadfilesbutton;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.annotation.Resource;
+import javax.swing.ImageIcon;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -28,7 +26,7 @@ import org.openide.util.Exceptions;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 import org.openide.util.Utilities;
-import org.openide.util.actions.BooleanStateAction;
+import org.openide.util.actions.CallbackSystemAction;
 
 @ActionID(
     category = "Project",
@@ -36,7 +34,8 @@ import org.openide.util.actions.BooleanStateAction;
 )
 
 @ActionRegistration(
-    iconBase = "ru/sbobrov85/uploadfilesbutton/upload-files-16.png",
+//    iconBase = "ru/sbobrov85/uploadfilesbutton/upload-files-16.png",
+    lazy = false,
     displayName = "#CTL_UploadFilesButton"
 )
 
@@ -52,8 +51,7 @@ import org.openide.util.actions.BooleanStateAction;
 
 @Messages("CTL_UploadFilesButton=UploadFiles on Save")
 
-public final class UploadFilesButton
-    implements ActionListener {
+public final class UploadFilesButton extends CallbackSystemAction {
 
     @Resource
     private static final String
@@ -63,13 +61,14 @@ public final class UploadFilesButton
     private static final String
         ICON_16 = "ru/sbobrov85/uploadfilesbutton/upload-files-16.png";
 
-    private final Project currentProject;
+    private Project currentProject;
 
     public static final String MANUALLY_STATE = "MANUALLY";
 
     public static final String ON_SAVE_STATE = "ON_SAVE";
 
-    public UploadFilesButton() {
+
+    public void setCurrentProject() {
         Lookup lookup = Utilities.actionsGlobalContext();
 
         FileObject fileObject = lookup.lookup(FileObject.class);
@@ -109,7 +108,14 @@ public final class UploadFilesButton
         }
     }
 
+    @Override
     public boolean isEnabled() {
+        return true;
+    }
+
+
+    public boolean checkEnabled() {
+        setCurrentProject();
         boolean isEnabled = false;
 
         if (currentProject != null) {
@@ -122,7 +128,7 @@ public final class UploadFilesButton
         return isEnabled;
     }
 
-    protected static String toggleUploadState(String state) {
+    protected String toggleUploadState(String state) {
         String resultState;
 
         switch (state) {
@@ -168,13 +174,31 @@ public final class UploadFilesButton
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (isEnabled()) {
+        if (checkEnabled()) {
             setEditableProperty(
                 "remote.upload",
                 toggleUploadState(
                     getEditableProperty("remote.upload")
                 )
             );
+            setIcon(new ImageIcon());
         }
+    }
+
+    @Override
+    public String getName() {
+        return Bundle.CTL_UploadFilesButton();
+    }
+
+    @Override
+    public HelpCtx getHelpCtx() {
+        return HelpCtx.DEFAULT_HELP;
+    }
+
+    @Override
+    protected String iconResource() {
+        String iconPath = currentProject != null && "MANUALLY".equals(getEditableProperty("remote.upload"))  ?
+            ICON_16 : ICON_OFF_16;
+        return iconPath;
     }
 }
