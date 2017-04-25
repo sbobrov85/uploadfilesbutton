@@ -47,7 +47,7 @@ import ru.sbobrov85.uploadfilesbutton.classes.StateHelper;
         position = 9100,
         separatorBefore = 9050
     ),
-    @ActionReference(path = "Toolbars/File", position = 3100),
+    @ActionReference(path = "Toolbars/File", position = 500),
     @ActionReference(path = "Shortcuts", name = "DO-U")
 })
 
