@@ -22,13 +22,16 @@ import javax.annotation.Resource;
 
 public final class StateHelper {
 
-    @Resource
     private static final String
-        ICON_OFF_16 = "/ru/sbobrov85/uploadfilesbutton/upload-files-off-16.png";
+        RESOURCE_FOLDER = "/ru/sbobrov85/uploadfilesbutton/resources/";
 
     @Resource
     private static final String
-        ICON_16 = "/ru/sbobrov85/uploadfilesbutton/upload-files-16.png";
+        ICON_OFF_16 = "upload-files-off.png";
+
+    @Resource
+    private static final String
+        ICON_16 = "upload-files.png";
 
     public static final String MANUALLY_STATE = "MANUALLY";
 
@@ -71,6 +74,6 @@ public final class StateHelper {
     }
 
     public final static String getIcon() {
-        return check() ? ICON_16 : ICON_OFF_16;
+        return RESOURCE_FOLDER + (check() ? ICON_16 : ICON_OFF_16);
     }
 }
