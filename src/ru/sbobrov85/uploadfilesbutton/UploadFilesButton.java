@@ -21,12 +21,18 @@ package ru.sbobrov85.uploadfilesbutton;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
+import org.netbeans.api.project.Project;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
+import org.openide.filesystems.FileObject;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.HelpCtx;
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
+import org.openide.util.Utilities;
 import org.openide.util.actions.CallbackSystemAction;
 import ru.sbobrov85.uploadfilesbutton.classes.ContextProperties;
 import ru.sbobrov85.uploadfilesbutton.classes.StateHelper;
@@ -53,12 +59,21 @@ import ru.sbobrov85.uploadfilesbutton.classes.StateHelper;
 
 @Messages("CTL_UploadFilesButton=Toggle auto upload")
 
-public final class UploadFilesButton extends CallbackSystemAction {
+public final class UploadFilesButton
+    extends CallbackSystemAction
+    implements LookupListener {
     private JMenuItem menuItem;
+
+    public UploadFilesButton() {
+        Lookup lookup = Utilities.actionsGlobalContext();
+        
+        lookup.lookupResult(Project.class).addLookupListener(this);
+        lookup.lookupResult(FileObject.class).addLookupListener(this);
+    }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return StateHelper.isEnabled();
     }
 
     @Override
@@ -97,5 +112,12 @@ public final class UploadFilesButton extends CallbackSystemAction {
     menuItem.addActionListener(this);
 
     return menuItem;
+  }
+
+  public void resultChanged(LookupEvent ev) {
+      setIcon(new ImageIcon());
+      boolean enabled = StateHelper.isEnabled();
+      setEnabled(enabled);
+//      menuItem.setEnabled(enabled);
   }
 }
