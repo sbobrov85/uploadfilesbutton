@@ -41,7 +41,7 @@ public final class StateHelper {
         boolean isEnabled = false;
 
         String runAs = new ContextProperties().getProperty("run.as");
-        if ("REMOTE".equals(runAs)) {
+        if (runAs != null && "REMOTE".equals(runAs)) {
             isEnabled = true;
         }
 

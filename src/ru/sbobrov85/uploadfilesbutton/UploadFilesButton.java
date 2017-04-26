@@ -93,10 +93,7 @@ public final class UploadFilesButton extends CallbackSystemAction {
 
   @Override
   public JMenuItem getMenuPresenter() {
-    menuItem = new JMenuItem(
-        getName(),
-        getIcon()
-    );
+    menuItem = super.getMenuPresenter();
     menuItem.addActionListener(this);
 
     return menuItem;
