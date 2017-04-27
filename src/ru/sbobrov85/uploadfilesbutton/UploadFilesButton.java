@@ -36,6 +36,7 @@ import org.openide.util.Utilities;
 import org.openide.util.actions.CallbackSystemAction;
 import ru.sbobrov85.uploadfilesbutton.classes.ContextProperties;
 import ru.sbobrov85.uploadfilesbutton.classes.StateHelper;
+import org.openide.util.Lookup.Result;
 
 @ActionID(
     category = "Project",
@@ -62,13 +63,20 @@ import ru.sbobrov85.uploadfilesbutton.classes.StateHelper;
 public final class UploadFilesButton
     extends CallbackSystemAction
     implements LookupListener {
-    private JMenuItem menuItem;
+
+  private JMenuItem menuItem;
+
+    protected void addLookupListener(Class type) {
+        Lookup lookup = Utilities.actionsGlobalContext();
+        Result lookupResult = lookup.lookupResult(type);
+        if (lookupResult != null) {
+          lookupResult.addLookupListener(this);
+        }
+    }
 
     public UploadFilesButton() {
-        Lookup lookup = Utilities.actionsGlobalContext();
-        
-        lookup.lookupResult(Project.class).addLookupListener(this);
-        lookup.lookupResult(FileObject.class).addLookupListener(this);
+        addLookupListener(Project.class);
+        addLookupListener(FileObject.class);
     }
 
     @Override
@@ -116,8 +124,7 @@ public final class UploadFilesButton
 
   public void resultChanged(LookupEvent ev) {
       setIcon(new ImageIcon());
-      boolean enabled = StateHelper.isEnabled();
-      setEnabled(enabled);
-//      menuItem.setEnabled(enabled);
+//      boolean enabled = StateHelper.isEnabled();
+//      setEnabled(enabled);
   }
 }
