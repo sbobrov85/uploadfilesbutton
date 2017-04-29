@@ -18,9 +18,11 @@
  */
 package ru.sbobrov85.uploadfilesbutton;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import org.netbeans.api.project.Project;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -66,6 +68,8 @@ public final class UploadFilesButton
 
   private JMenuItem menuItem;
 
+  private Component button;
+
     protected void addLookupListener(Class type) {
         Lookup lookup = Utilities.actionsGlobalContext();
         Result lookupResult = lookup.lookupResult(type);
@@ -81,7 +85,7 @@ public final class UploadFilesButton
 
     @Override
     public boolean isEnabled() {
-        return StateHelper.isEnabled();
+        return true;
     }
 
     @Override
@@ -116,15 +120,31 @@ public final class UploadFilesButton
 
   @Override
   public JMenuItem getMenuPresenter() {
-    menuItem = super.getMenuPresenter();
+    menuItem = new JMenuItem(
+        getName(),
+        getIcon()
+    );
+    menuItem.setAccelerator((KeyStroke) getProperty(ACCELERATOR_KEY));
     menuItem.addActionListener(this);
 
     return menuItem;
   }
 
+    @Override
+    public Component getToolbarPresenter() {
+        button = super.getToolbarPresenter();
+        return button;
+    }
+
   public void resultChanged(LookupEvent ev) {
       setIcon(new ImageIcon());
-//      boolean enabled = StateHelper.isEnabled();
-//      setEnabled(enabled);
+      boolean enabled = StateHelper.isEnabled();
+      if (menuItem != null) {
+          menuItem.setEnabled(enabled);
+          menuItem.setIcon(new ImageIcon(getClass().getResource(StateHelper.getIcon())));
+      }
+      if (button != null) {
+        button.setEnabled(enabled);
+      }
   }
 }
