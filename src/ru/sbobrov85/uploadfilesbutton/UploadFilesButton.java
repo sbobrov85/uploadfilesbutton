@@ -39,6 +39,7 @@ import org.openide.util.actions.CallbackSystemAction;
 import ru.sbobrov85.uploadfilesbutton.classes.ContextProperties;
 import ru.sbobrov85.uploadfilesbutton.classes.StateHelper;
 import org.openide.util.Lookup.Result;
+import org.openide.util.NbBundle;
 
 @ActionID(
     category = "Project",
@@ -105,7 +106,7 @@ public final class UploadFilesButton
 
     @Override
     public String getName() {
-        return Bundle.CTL_UploadFilesButton();
+        return NbBundle.getMessage(this.getClass(), "Toggle-Message-Localized");
     }
 
     @Override
