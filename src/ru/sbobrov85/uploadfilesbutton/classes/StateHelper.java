@@ -20,60 +20,107 @@ package ru.sbobrov85.uploadfilesbutton.classes;
 
 import javax.annotation.Resource;
 
+/**
+ * Action state helper.
+ */
 public final class StateHelper {
 
-    private static final String
-        RESOURCE_FOLDER = "/ru/sbobrov85/uploadfilesbutton/resources/";
+  /**
+   * Contains const for resource folder base path.
+   */
+  private static final String
+    RESOURCE_FOLDER = "/ru/sbobrov85/uploadfilesbutton/resources/";
 
-    @Resource
-    private static final String
-        ICON_OFF_16 = "upload-files-off.png";
+  /**
+   * Contains filename for off image.
+   */
+  @Resource
+  private static final String ICON_OFF_16 = "upload-files-off.png";
 
-    @Resource
-    private static final String
-        ICON_16 = "upload-files.png";
+  /**
+   * Contains filename for base image.
+   */
+  @Resource
+  private static final String ICON_16 = "upload-files.png";
 
-    public static final String MANUALLY_STATE = "MANUALLY";
+  /**
+   * Contains const for "manually" config string.
+   */
+  public static final String MANUALLY_STATE = "MANUALLY";
 
-    public static final String ON_SAVE_STATE = "ON_SAVE";
+  /**
+   * Contains const for "on save" config string.
+   */
+  public static final String ON_SAVE_STATE = "ON_SAVE";
 
-    public final static boolean isEnabled() {
-        boolean isEnabled = false;
+  /**
+   * Hide default constructor.
+   */
+  private StateHelper() {
+  }
 
-        String runAs = new ContextProperties().getProperty("run.as");
-        if (runAs != null && "REMOTE".equals(runAs)) {
-            isEnabled = true;
-        }
+  /**
+   * Checking if remote settings is possible.
+   * @return true if possible, false another.
+   */
+  public static boolean isEnabled() {
+    boolean isEnabled = false;
 
-        return isEnabled;
+    String runAs = new ContextProperties().getProperty("run.as");
+    if (runAs != null && "REMOTE".equals(runAs)) {
+      isEnabled = true;
     }
 
-    public final static boolean check() {
-        return ON_SAVE_STATE.equals(
-            new ContextProperties().getProperty("remote.upload")
-        );
+    return isEnabled;
+  }
+
+  /**
+   * Checking context property state.
+   * @return true if on save, false another.
+   */
+  public static boolean check() {
+    return ON_SAVE_STATE.equals(
+        new ContextProperties().getProperty("remote.upload")
+    );
+  }
+
+  /**
+   * Toggle context state.
+   * @param state state string from config.
+   * @return toggled config string state.
+   */
+  public static String toggle(final String state) {
+    String resultState;
+
+    switch (state) {
+      case MANUALLY_STATE:
+        resultState = ON_SAVE_STATE;
+        break;
+
+      case ON_SAVE_STATE:
+        resultState = MANUALLY_STATE;
+        break;
+
+      default:
+        resultState = MANUALLY_STATE;
     }
 
-    public final static String toggle(String state) {
-        String resultState;
+    return resultState;
+  }
 
-        switch (state) {
-            case MANUALLY_STATE:
-                resultState = ON_SAVE_STATE;
-                break;
+  /**
+   * Get icon path for action.
+   * @return icon path.
+   */
+  public static String getIcon() {
+    String iconBaseName;
 
-            case ON_SAVE_STATE:
-                resultState = MANUALLY_STATE;
-                break;
-
-            default:
-                resultState = MANUALLY_STATE;
-        }
-
-        return resultState;
+    if (check()) {
+      iconBaseName = ICON_16;
+    } else {
+      iconBaseName = ICON_OFF_16;
     }
 
-    public final static String getIcon() {
-        return RESOURCE_FOLDER + (check() ? ICON_16 : ICON_OFF_16);
-    }
+    return iconBaseName + RESOURCE_FOLDER;
+  }
 }

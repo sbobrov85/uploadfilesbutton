@@ -30,75 +30,112 @@ import org.openide.util.EditableProperties;
 import org.openide.util.Lookup;
 import org.openide.util.Utilities;
 
+/**
+ * Get/Set project private properties.
+ * @see <https://blogs.oracle.com/geertjan/entry/setting_netbeans_properties_programatically>
+ */
 public final class ContextProperties {
 
-    private FileObject projectProps;
+  /**
+   * Contains private properties FileObject.
+   */
+  private FileObject projectProps;
 
-    public ContextProperties() {
-        Project currentProject;
-        projectProps = null;
+  /**
+   * Constructor.
+   * Set current private properties FileObject for context.
+   */
+  public ContextProperties() {
+    Project currentProject;
+    projectProps = null;
 
-        Lookup lookup = Utilities.actionsGlobalContext();
-        FileObject fileObject = lookup.lookup(FileObject.class);
-        if (fileObject != null) {
-            currentProject = FileOwnerQuery.getOwner(fileObject);
-        } else {
-            currentProject = lookup.lookup(Project.class);
-        }
-
-        if (currentProject != null) {
-            projectProps = currentProject.getProjectDirectory()
-                .getFileObject(AntProjectHelper.PRIVATE_PROPERTIES_PATH);
-        }
+    Lookup lookup = Utilities.actionsGlobalContext();
+    FileObject fileObject = lookup.lookup(FileObject.class);
+    if (fileObject != null) {
+      currentProject = FileOwnerQuery.getOwner(fileObject);
+    } else {
+      currentProject = lookup.lookup(Project.class);
     }
 
-    protected static EditableProperties load(FileObject propsFO)
-        throws IOException, NullPointerException {
-        InputStream propsIS = propsFO.getInputStream();
-        EditableProperties props = new EditableProperties(true);
-        try {
-            props.load(propsIS);
-        } finally {
-            propsIS.close();
-        }
-        return props;
+    if (currentProject != null) {
+      projectProps = currentProject.getProjectDirectory()
+        .getFileObject(AntProjectHelper.PRIVATE_PROPERTIES_PATH);
+    }
+  }
+
+  /**
+   * Load editable properties from private folder.
+   * @param propsFO private properties FileObject.
+   * @return EditableProperties instance.
+   * @throws IOException on load errors.
+   * @throws NullPointerException on propsFO null.
+   */
+  protected static EditableProperties load(final FileObject propsFO)
+    throws IOException, NullPointerException {
+    InputStream propsIS = propsFO.getInputStream();
+    EditableProperties props = new EditableProperties(true);
+    try {
+      props.load(propsIS);
+    } finally {
+      propsIS.close();
+    }
+    return props;
+  }
+
+  /**
+   * Store editable properties.
+   * @param propsFO private properties FileObject.
+   * @param props EditableProperties instance.
+   * @throws IOException on store error.
+   * @throws NullPointerException if propsFO is null.
+   */
+  protected static void store(
+    final FileObject propsFO,
+    final EditableProperties props
+  ) throws IOException, NullPointerException {
+    FileLock lock = propsFO.lock();
+    try {
+      OutputStream os = propsFO.getOutputStream(lock);
+      try {
+        props.store(os);
+      } finally {
+        os.close();
+      }
+    } finally {
+      lock.releaseLock();
+    }
+  }
+
+  /**
+   * Get property by key.
+   * @param key property name.
+   * @return property value.
+   */
+  public String getProperty(final String key) {
+    String result = null;
+
+    try {
+      EditableProperties editableProps = load(projectProps);
+      result = editableProps.getProperty(key);
+    } catch (IOException | NullPointerException ex) {
+      //todo log
     }
 
-    protected static void store(FileObject propsFO, EditableProperties props)
-        throws IOException, NullPointerException {
-        FileLock lock = propsFO.lock();
-        try {
-            OutputStream os = propsFO.getOutputStream(lock);
-            try {
-                props.store(os);
-            } finally {
-                os.close();
-            }
-        } finally {
-            lock.releaseLock();
-        }
+    return result;
+  }
+
+  /**
+   * Set property value by key.
+   * @param key property key.
+   * @param value property new value.
+   */
+  public void setProperty(final String key, final String value) {
+    try {
+      EditableProperties editableProps = load(projectProps);
+      editableProps.setProperty(key, value);
+      store(projectProps, editableProps);
+    } catch (IOException | NullPointerException ex) {
+      //todo log
     }
-
-    public String getProperty(String key) {
-        String result = null;
-
-        try {
-            EditableProperties editableProps = load(projectProps);
-            result = editableProps.getProperty(key);
-        } catch (IOException | NullPointerException ex) {
-            //TODO: log
-        }
-
-        return result;
-    }
-
-    public void setProperty(String key, String value) {
-        try {
-            EditableProperties editableProps = load(projectProps);
-            editableProps.setProperty(key, value);
-            store(projectProps, editableProps);
-        } catch (IOException | NullPointerException ex) {
-            //TODO: log
-        }
-    }
+  }
 }

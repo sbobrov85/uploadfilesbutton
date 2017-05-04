@@ -41,11 +41,17 @@ import ru.sbobrov85.uploadfilesbutton.classes.StateHelper;
 import org.openide.util.Lookup.Result;
 import org.openide.util.NbBundle;
 
+/**
+ * Described action id through annotation.
+ */
 @ActionID(
     category = "Project",
     id = "ru.sbobrov85.uploadfilesbutton.UploadFilesButton"
 )
 
+/**
+ * Action registration through annotation.
+ */
 @ActionRegistration(
     lazy = false,
     displayName = "#CTL_UploadFilesButton"
@@ -54,76 +60,103 @@ import org.openide.util.NbBundle;
 @ActionReferences({
     @ActionReference(
         path = "Menu/Source",
+        //CHECKSTYLE:OFF
         position = 9100,
         separatorBefore = 9050
+        //CHECKSTYLE:ON
     ),
+    //CHECKSTYLE:OFF
     @ActionReference(path = "Toolbars/File", position = 500),
+    //CHECKSTYLE:ON
     @ActionReference(path = "Shortcuts", name = "DO-U")
 })
 
 @Messages("CTL_UploadFilesButton=Toggle auto upload")
 
-public final class UploadFilesButton
-    extends CallbackSystemAction
-    implements LookupListener {
+public final class UploadFilesButton extends CallbackSystemAction
+  implements LookupListener {
 
+  /**
+   * Contains menu item instance.
+   */
   private JMenuItem menuItem;
 
+  /**
+   * Contains actions button instance.
+   */
   private Component button;
 
-    protected void addLookupListener(Class type) {
-        Lookup lookup = Utilities.actionsGlobalContext();
-        Result lookupResult = lookup.lookupResult(type);
-        if (lookupResult != null) {
-          lookupResult.addLookupListener(this);
-        }
+  /**
+   * Adding this class as lookup listener for context.
+   * @param type context type.
+   */
+  protected void addLookupListener(final Class type) {
+    Lookup lookup = Utilities.actionsGlobalContext();
+    Result lookupResult = lookup.lookupResult(type);
+    if (lookupResult != null) {
+      lookupResult.addLookupListener(this);
     }
+  }
 
-    public UploadFilesButton() {
-        addLookupListener(Project.class);
-        addLookupListener(FileObject.class);
-    }
+  /**
+   * Constructor.
+   */
+  public UploadFilesButton() {
+    addLookupListener(Project.class);
+    addLookupListener(FileObject.class);
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+  /**
+   * Get menu item image icon instance.
+   * @return image icon instance.
+   */
+  protected ImageIcon getMenuItemImageIcon() {
+    return new ImageIcon(getClass().getResource(StateHelper.getIcon()));
+  }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (StateHelper.isEnabled()) {
-            ContextProperties props = new ContextProperties();
-            props.setProperty(
-                "remote.upload",
-                StateHelper.toggle(
-                    props.getProperty("remote.upload")
-                )
-            );
-            setIcon(new ImageIcon());
-            menuItem.setIcon(new ImageIcon(getClass().getResource(StateHelper.getIcon())));
-        }
-    }
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
 
-    @Override
-    public String getName() {
-        return NbBundle.getMessage(this.getClass(), "Toggle-Message-Localized");
+  @Override
+  public void actionPerformed(final ActionEvent e) {
+    if (StateHelper.isEnabled()) {
+      ContextProperties props = new ContextProperties();
+      props.setProperty(
+        "remote.upload",
+        StateHelper.toggle(
+            props.getProperty("remote.upload")
+        )
+      );
+      setIcon(new ImageIcon());
+      menuItem.setIcon(getMenuItemImageIcon());
     }
+  }
 
-    @Override
-    public HelpCtx getHelpCtx() {
-        return HelpCtx.DEFAULT_HELP;
-    }
+  @Override
+  public String getName() {
+    return NbBundle.getMessage(
+      this.getClass(),
+      "Toggle-Message-Localized"
+    );
+  }
 
-    @Override
-    protected String iconResource() {
-      return StateHelper.getIcon();
-    }
+  @Override
+  public HelpCtx getHelpCtx() {
+    return HelpCtx.DEFAULT_HELP;
+  }
+
+  @Override
+  protected String iconResource() {
+    return StateHelper.getIcon();
+  }
 
   @Override
   public JMenuItem getMenuPresenter() {
     menuItem = new JMenuItem(
-        getName(),
-        getIcon()
+      getName(),
+      getIcon()
     );
     menuItem.setAccelerator((KeyStroke) getProperty(ACCELERATOR_KEY));
     menuItem.addActionListener(this);
@@ -131,21 +164,22 @@ public final class UploadFilesButton
     return menuItem;
   }
 
-    @Override
-    public Component getToolbarPresenter() {
-        button = super.getToolbarPresenter();
-        return button;
-    }
+  @Override
+  public Component getToolbarPresenter() {
+    button = super.getToolbarPresenter();
+    return button;
+  }
 
-  public void resultChanged(LookupEvent ev) {
-      setIcon(new ImageIcon());
-      boolean enabled = StateHelper.isEnabled();
-      if (menuItem != null) {
-          menuItem.setEnabled(enabled);
-          menuItem.setIcon(new ImageIcon(getClass().getResource(StateHelper.getIcon())));
-      }
-      if (button != null) {
-        button.setEnabled(enabled);
-      }
+  @Override
+  public void resultChanged(final LookupEvent ev) {
+    setIcon(new ImageIcon());
+    boolean enabled = StateHelper.isEnabled();
+    if (menuItem != null) {
+      menuItem.setEnabled(enabled);
+      menuItem.setIcon(getMenuItemImageIcon());
+    }
+    if (button != null) {
+      button.setEnabled(enabled);
+    }
   }
 }
