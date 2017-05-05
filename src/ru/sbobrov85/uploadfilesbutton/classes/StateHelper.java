@@ -121,6 +121,6 @@ public final class StateHelper {
       iconBaseName = ICON_OFF_16;
     }
 
-    return iconBaseName + RESOURCE_FOLDER;
+    return RESOURCE_FOLDER + iconBaseName;
   }
 }
