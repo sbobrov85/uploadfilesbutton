@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package ru.sbobrov85.uploadfilesbutton;
+package io.github.sbobrov85.nb.uploadfilesbutton;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -36,8 +36,8 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 import org.openide.util.actions.CallbackSystemAction;
-import ru.sbobrov85.uploadfilesbutton.classes.ContextProperties;
-import ru.sbobrov85.uploadfilesbutton.classes.StateHelper;
+import io.github.sbobrov85.nb.uploadfilesbutton.classes.ContextProperties;
+import io.github.sbobrov85.nb.uploadfilesbutton.classes.StateHelper;
 import org.openide.util.Lookup.Result;
 import org.openide.util.NbBundle;
 
@@ -46,7 +46,7 @@ import org.openide.util.NbBundle;
  */
 @ActionID(
     category = "Project",
-    id = "ru.sbobrov85.uploadfilesbutton.UploadFilesButton"
+    id = "io.github.sbobrov85.nb.uploadfilesbutton.UploadFilesButton"
 )
 
 /**

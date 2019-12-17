@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package ru.sbobrov85.uploadfilesbutton.classes;
+package io.github.sbobrov85.nb.uploadfilesbutton.classes;
 
 import javax.annotation.Resource;
 
@@ -29,7 +29,7 @@ public final class StateHelper {
    * Contains const for resource folder base path.
    */
   private static final String
-    RESOURCE_FOLDER = "/ru/sbobrov85/uploadfilesbutton/resources/";
+    RESOURCE_FOLDER = "/io/github/sbobrov85/nb/uploadfilesbutton/resources/";
 
   /**
    * Contains filename for off image.
