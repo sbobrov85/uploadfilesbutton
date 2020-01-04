@@ -4,6 +4,8 @@
 
 NetBeans IDE plugin for toggle files autoupload.
 
+![plugin screen](screen.jpg "Plugin screen")
+
 ## Install from *.nbm
 
 1. Download latest release from [releases page](https://github.com/sbobrov85/uploadfilesbutton/releases).
