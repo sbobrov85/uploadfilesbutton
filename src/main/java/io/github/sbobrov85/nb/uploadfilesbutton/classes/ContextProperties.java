@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
-import org.netbeans.spi.project.support.ant.AntProjectHelper;
 import org.openide.filesystems.FileLock;
 import org.openide.filesystems.FileObject;
 import org.openide.util.EditableProperties;
@@ -40,6 +39,13 @@ public final class ContextProperties {
    * Contains private properties FileObject.
    */
   private FileObject projectProps;
+
+  /**
+   * Properties path.
+   * Legacy for org.netbeans.spi.project.support.ant.AntProjectHelper
+   */
+  private final String
+    PRIVATE_PROPERTIES_PATH = "nbproject/private/private.properties";
 
   /**
    * Constructor.
@@ -59,7 +65,7 @@ public final class ContextProperties {
 
     if (currentProject != null) {
       projectProps = currentProject.getProjectDirectory()
-        .getFileObject(AntProjectHelper.PRIVATE_PROPERTIES_PATH);
+        .getFileObject(PRIVATE_PROPERTIES_PATH);
     }
   }
 

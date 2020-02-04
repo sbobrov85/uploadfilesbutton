@@ -38,6 +38,10 @@ import org.openide.util.Utilities;
 import org.openide.util.actions.CallbackSystemAction;
 import io.github.sbobrov85.nb.uploadfilesbutton.classes.ContextProperties;
 import io.github.sbobrov85.nb.uploadfilesbutton.classes.StateHelper;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup.Result;
 import org.openide.util.NbBundle;
 
@@ -111,7 +115,9 @@ public final class UploadFilesButton extends CallbackSystemAction
    * @return image icon instance.
    */
   protected ImageIcon getMenuItemImageIcon() {
-    return new ImageIcon(getClass().getResource(StateHelper.getIcon()));
+    final URL iconResource = getClass().getClassLoader()
+      .getResource(StateHelper.getIcon());
+    return new ImageIcon(iconResource);
   }
 
   @Override

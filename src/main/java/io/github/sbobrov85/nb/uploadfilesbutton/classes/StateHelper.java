@@ -29,7 +29,7 @@ public final class StateHelper {
    * Contains const for resource folder base path.
    */
   private static final String
-    RESOURCE_FOLDER = "/io/github/sbobrov85/nb/uploadfilesbutton/resources/";
+    RESOURCE_FOLDER = "io/github/sbobrov85/nb/uploadfilesbutton/";
 
   /**
    * Contains filename for off image.
