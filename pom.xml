@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.sbobrov85</groupId>
     <artifactId>nb.uploadfilesbutton</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <packaging>nbm</packaging>
     <name>Upload Files Button</name>
     <url>https://github.com/sbobrov85/uploadfilesbutton</url>
@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
         <connection>scm:git:https://github.com/sbobrov85/uploadfilesbutton.git</connection>
         <developerConnection>scm:git:git@github.com:sbobrov85/uploadfilesbutton.git</developerConnection>
         <url>https://github.com/sbobrov85/uploadfilesbutton/tree/${project.scm.tag}</url>
-        <tag>master</tag>
+        <tag>1.2</tag>
     </scm>
     <licenses>
         <license>
