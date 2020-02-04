@@ -15,8 +15,8 @@ NetBeans IDE plugin for toggle files autoupload.
 
 1. Clone this repo: git clone https://github.com/sbobrov85/uploadfilesbutton.git ~/uploadfilesbutton
 2. Open NetBeans, select File -> Open project... and select cloned folder.
-3. Right mouse click by project, select "Create NBM" and wait.
-4. Install to NetBeans, use [standard instruction](http://wiki.netbeans.org/InstallingAPlugin) with select nbm from "build" subfolder.
+3. Right mouse click by project, select "Build" and wait.
+4. Install to NetBeans, use [standard instruction](http://wiki.netbeans.org/InstallingAPlugin) with select nbm from "target" subfolder.
 
 ## Uninstall
 
