@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </developers>
     <scm>
         <connection>scm:git:https://github.com/sbobrov85/uploadfilesbutton.git</connection>
-        <developerConnection>scm:git:https://github.com/sbobrov85/uploadfilesbutton.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:sbobrov85/uploadfilesbutton.git</developerConnection>
         <url>https://github.com/sbobrov85/uploadfilesbutton/tree/${project.scm.tag}</url>
         <tag>master</tag>
     </scm>
